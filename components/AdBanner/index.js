@@ -1,16 +1,13 @@
-import * as Fathom from "fathom-client";
 import { useEffect, useRef, useState } from "react";
 
-import { FATHOM_ADS_ID } from "../../hooks/useAnalytics";
 import { Native, NativeMediaContent, NativeLink } from "hypelab-react";
+import { HYPELAB_NATIVE_PLACEMENT_SLUG } from "../../constants/hypelab";
 
 export const AdBanner = () => {
-  const trackGoal = (ad) => {
-    Fathom.trackGoal(FATHOM_ADS_ID[ad.advertiser.toLowerCase()], 0);
-  };
+  const trackGoal = (ad) => {};
 
   return (
-    <Native placement="134be8540e" className="h-full">
+    <Native placement={HYPELAB_NATIVE_PLACEMENT_SLUG} className="h-full">
       {function (ad) {
         if (ad.icon !== "") {
           return (
@@ -77,7 +74,7 @@ const AdvertiserInfo = ({ ad }) => {
     <div className="flex items-center gap-2">
       <div className="rounded-full flex-shrink-0 flex relative">
         <NativeLink>
-          <img src={ad.icon} className="w-10" alt={ad.icon} />
+          <img src={ad.icon} className="w-10 rounded-full" alt={ad.icon} />
         </NativeLink>
       </div>
       <span className="font-semibold whitespace-nowrap overflow-hidden text-ellipsis relative top-[1px] dark:text-[#B3B3B3]">

@@ -6,6 +6,7 @@ import Chain from "../components/chain";
 import { AdBanner } from "../components/AdBanner";
 import { generateChainData } from "../utils/fetch";
 import { Environment, HypeLab, HypeLabContext } from "hypelab-react";
+import { HYPELAB_API_URL, HYPELAB_PROPERTY_SLUG } from "../constants/hypelab";
 
 export async function getStaticProps() {
   const sortedChains = await generateChainData();
@@ -54,8 +55,8 @@ function Home({ chains }) {
         });
 
   const client = new HypeLab({
-    URL: "https://api.hypelab.com",
-    propertySlug: "chainlist",
+    URL: HYPELAB_API_URL,
+    propertySlug: HYPELAB_PROPERTY_SLUG,
     environment: Environment.Production,
   });
 
