@@ -5,15 +5,15 @@ import { HYPELAB_NATIVE_PLACEMENT_SLUG } from "../../constants/hypelab";
 
 export const AdBanner = () => {
   return (
-    <Native placement={HYPELAB_NATIVE_PLACEMENT_SLUG} className="h-full">
+    <Native placement={HYPELAB_NATIVE_PLACEMENT_SLUG}>
       {function (ad) {
         if (ad.icon !== "") {
           return (
-            <div className="flex flex-col h-full w-full items-center">
+            <div className="flex flex-col w-full items-center">
               <div className="flex flex-col w-fit bg-white dark:bg-[#0D0D0D] rounded-[10px] shadow overflow-hidden">
                 <div className="flex">
                   <NativeLink>
-                    <div data-cy="mediaContent" className="mediaContent">
+                    <div data-cy="mediaContent" className="max-h-[260px] lg:max-h-[300px]">
                       <NativeMediaContent />
                     </div>
                   </NativeLink>
@@ -35,7 +35,7 @@ const NativeTextContent = ({ ad }) => {
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        setWidth(entry.contentRect.width)
+        setWidth(entry.contentRect.width);
       }
     });
 
@@ -53,21 +53,30 @@ const NativeTextContent = ({ ad }) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center mx-3 my-3 h-full" id="ctaContainer" ref={containerRef}>
-      <div className="flex flex-col items-center justify-center w-full gap-2">
-        {width < 370 ? (
-          <>
-            <AdvertiserInfo ad={ad} />
-            <CtaButton ad={ad} />
-          </>
-        ) : (
-          <div className="flex justify-between w-full">
-            <AdvertiserInfo ad={ad} />
-            <CtaButton ad={ad} />
+    <>
+      {width < 260 ? (
+        ""
+      ) : (
+        <div
+          className="flex flex-col items-center justify-center mx-3 my-3 h-full"
+          id="ctaContainer"
+          ref={containerRef}
+        >
+          <div className="flex flex-col items-center justify-center w-full gap-2">
+            {width < 370 ? (
+              <>
+                <CtaButton ad={ad} />
+              </>
+            ) : (
+              <div className="flex justify-between w-full">
+                <AdvertiserInfo ad={ad} />
+                <CtaButton ad={ad} />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
