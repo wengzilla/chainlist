@@ -8,23 +8,58 @@ export const AdBanner = () => {
     <Native placement={HYPELAB_NATIVE_PLACEMENT_SLUG}>
       {function (ad) {
         if (ad.icon !== "") {
-          return (
-            <div className="flex flex-col w-full items-center">
-              <div className="flex flex-col w-fit bg-white dark:bg-[#0D0D0D] rounded-[10px] shadow overflow-hidden">
-                <div className="flex">
-                  <NativeLink>
-                    <div data-cy="mediaContent" className="max-h-[260px] lg:max-h-[300px]">
-                      <NativeMediaContent />
-                    </div>
-                  </NativeLink>
-                </div>
-                <NativeTextContent ad={ad} />
-              </div>
-            </div>
-          );
+          return <NativeWrapper ad={ad} />;
         }
       }}
     </Native>
+  );
+};
+
+const NativeWrapper = ({ ad }) => {
+  const imageRef = useRef(null);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setWidth(entry.contentRect.width);
+        setHeight(entry.contentRect.height);
+
+        if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
+          if (entry.contentRect.width == entry.contentRect.height) {
+            entry.target.style.width = "260px";
+          }
+        }
+      }
+    });
+
+    const container = imageRef.current;
+
+    if (container) {
+      resizeObserver.observe(container);
+    }
+
+    return () => {
+      if (container) {
+        resizeObserver.unobserve(container);
+      }
+    };
+  }, [imageRef]);
+
+  return (
+    <div className="flex flex-col w-full items-center">
+      <div className="flex flex-col w-fit bg-white dark:bg-[#0D0D0D] rounded-[10px] shadow overflow-hidden">
+        <div className="flex">
+          <NativeLink>
+            <div id="mediaContent" ref={imageRef}>
+              <NativeMediaContent />
+            </div>
+          </NativeLink>
+        </div>
+        <NativeTextContent ad={ad} />
+      </div>
+    </div>
   );
 };
 
@@ -50,7 +85,7 @@ const NativeTextContent = ({ ad }) => {
         resizeObserver.unobserve(container);
       }
     };
-  }, []);
+  }, [containerRef]);
 
   return (
     <>
