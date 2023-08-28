@@ -109,7 +109,6 @@ export default function Chain({ chain, buttonOnly, lang }) {
               className="w-4 h-4"
               style={{
                 transform: showAddlInfo ? "rotate(180deg)" : "",
-                transition: "all 0.2s ease",
               }}
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
